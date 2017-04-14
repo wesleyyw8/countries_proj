@@ -3,14 +3,68 @@
 <meta charset="UTF-8">
 <title>Wesley: “Hydrane AngularJS Frontend Dev CS</title>
 <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
+<link rel="stylesheet" href="../style.css">
 </head>
-<body>
-  <h1>“Hydrane AngularJS Frontend Dev CS”</h1>
+<body ng-app="wesCountriesApp">
+  <div class="index" ng-controller="indexController">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" >Wesley Rebelo Challenge</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li>
+            <p class="navbar-text">Continent names:</p>
+          </li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            {{continentSelected}}<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a ng-click="continentSelected = 'all'">All</a></li>
+              <li><a ng-click="continentSelected = 'cont1'">Another continent</a></li>
+              <li><a ng-click="continentSelected = 'cont2'">Another continent2</a></li>
+            </ul>
+          </li>
+          <li>
+            <p class="navbar-text">metric:</p>
+          </li>
+          <li class="dropdown">
+            <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            {{metric}}<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a ng-click="metric = 'all'">All</a></li>
+              <li><a ng-click="metric = 'areaInSqKm'">areaInSqKm</a></li>
+              <li><a ng-click="metric = 'population'">population</a></li>
+            </ul>
+          </li>
+          <li>
+            <p class="navbar-text">maxResults: </p>
+          </li>
+          <li class="dropdown">
+            <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            {{maxResults}}<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a ng-click="maxResults = 5">5</a></li>
+              <li><a ng-click="maxResults = 10">10</a></li>
+              <li><a ng-click="maxResults = 15">15</a></li>
+              <li><a ng-click="maxResults = 20">20</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>  
+    <div class="page-content">
+      <h1 class="title">“Hydrane AngularJS Frontend Dev CS”</h1>
+      <br>
+      <div ng-view></div>
+    </div>
+  </div>
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="bower_components/angular/angular.min.js"></script>
 <script src="bower_components/angular-route/angular-route.min.js"></script>
 <script src="bower_components/underscore/underscore.js"></script>
+<script src="../application.js"></script>
 </body>
 
 </html>
