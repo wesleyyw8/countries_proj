@@ -21,8 +21,9 @@
             {{continentSelected}}<span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a ng-click="continentSelected = 'all'">All</a></li>
-              <li><a ng-click="continentSelected = 'cont1'">Another continent</a></li>
-              <li><a ng-click="continentSelected = 'cont2'">Another continent2</a></li>
+              <li ng-repeat="continent in continentsNames">
+              <a ng-click="continentSelected = continent">{{::continent}}</a>
+              </li>
             </ul>
           </li>
           <li>

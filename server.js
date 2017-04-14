@@ -7,7 +7,7 @@ var portNumber = 1234;
 var server = app.listen(process.env.PORT || portNumber,function(){
   console.log("We have started our server on port! "+portNumber);
 });
-app.get('/endpoints/countryInfoJSON', function(request,response){
+app.get('/endpoints/getCountryInfo', function(request,response){
   response.sendFile(__dirname + '/countryInfoJSON.json');
 });
 app.get('*', function(req, res) {
