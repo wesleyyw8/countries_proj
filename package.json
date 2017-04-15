@@ -2,7 +2,7 @@
   "name": "countries_proj",
   "version": "1.0.0",
   "main": "index.js",
-  "start": "index.js",
+  "start": "node index.js",
   "dependencies": {},
   "devDependencies": {
     "body-parser": "~1.12.0",
