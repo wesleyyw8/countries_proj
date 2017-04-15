@@ -1,14 +1,15 @@
-<div class="container-fluid results">
+<div class="container results">
   <div class="row text-center">
-    <div class="col-xs-12 col-sm-6 chart-container">
+    <div class="col-xs-6 col-sm-12 chart-container" ng-if="metric == 'all' || metric  == 'population'">
       <pie-chart data="chartA"></pie-chart>
     </div>
-    <div class="col-xs-12 col-sm-6 chart-container">
+    <div class="clearfix visible-xs"></div>
+    <div class="col-xs-6 col-sm-12 chart-container" ng-if="metric == 'all' || metric  == 'areaInSqKm'">
       <pie-chart data="chartB"></pie-chart>
     </div>
   </div>
   <br><br>
   <div class="row">
-    <div class="col-xs-12 col-md-6 col-md-offset-3"><table-results data="countries" metric="metric"></table-results></div>
+    <div class="col-xs-6 col-md-6 col-md-offset-3"><table-results data="countries" metric="metric"></table-results></div>
   </div>
 </div>

@@ -74,15 +74,18 @@ function($scope, config, navBarService, countryInfoService){
   });
   navBarService.reload(); //loads for the first time.
   function loadChartData() {
-    $scope.chartA = [];
-    $scope.chartB = [];
     if ($scope.metric == 'all') {
+      $scope.chartA = [];
+      $scope.chartB = [];
       $scope.chartA = formatDataForHighChart('population');
       $scope.chartB = formatDataForHighChart('areaInSqKm');
     }
-    else if ($scope.metric == 'population') 
-      $scope.chartA = formatDataForHighChart('population');
+    else if ($scope.metric == 'population')  {
+      $scope.chartA = [];
+      $scope.chartA = formatDataForHighChart('population');      
+    }
     else if ($scope.metric == 'areaInSqKm') 
+      $scope.chartB = [];
       $scope.chartB = formatDataForHighChart('areaInSqKm');
   }
   function formatDataForHighChart(metric) {

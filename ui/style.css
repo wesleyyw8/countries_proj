@@ -4,7 +4,7 @@
 .index .page-content {
   display: block;
   position: relative;
-  max-width: 1000px;
+  width: 1000px;
   margin: auto;
 }
 .index .navbar-text {
@@ -31,7 +31,8 @@ a {
 
 .results .chart-container {
   border: 1px solid black;
+  border-bottom: none;
 }
-.results .chart-container:first-of-type {
-  border-right: none;
+.results .chart-container:last-of-type {
+  border-bottom: 1px solid black;
 }
