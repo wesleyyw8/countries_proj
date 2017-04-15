@@ -3,7 +3,7 @@ var app = express();
 
 app.use(express.static(__dirname + '/ui')); 
 
-var portNumber = 1234;
+var portNumber = 8081;
 var server = app.listen(process.env.PORT || portNumber,function(){
   console.log("We have started our server on port! "+portNumber);
 });
