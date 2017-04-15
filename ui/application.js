@@ -87,7 +87,11 @@ app.service('countryInfoService', ['$q', '$http','config', function($q, $http,co
     return deferrer.promise;
   }
   getCountries(continentName, metric, maxResults) {
-
+    var deferrer = $q.defer();
+    getCountryInfo().then(function(data){
+      
+    });
+    return deferrer.promise; 
   }
 
   return service;
