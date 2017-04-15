@@ -22,8 +22,8 @@ app.factory('config', [function() {
     getCountryInfo: 'getCountryInfo'
   }
 }]);
-app.controller('indexController', ['$scope','countryInfoService',
-function($scope,countryInfoService){
+app.controller('indexController', ['$scope','countryInfoService', 'navBarService',
+function($scope,countryInfoService, navBarService){
   (function initValues(){
     $scope.continentSelected = 'all';
     $scope.metric = 'all';
@@ -35,6 +35,27 @@ function($scope,countryInfoService){
       $scope.continentsNames = data;
     });
   }
+  $scope.$watch('continentSelected', function(newVal){
+    if (newVal) {
+      navBarService.setContinent(newVal);
+      navBarService.reload();
+    }
+  });
+  $scope.$watch('metric', function(newVal){
+    if (newVal) {
+      navBarService.setMetric(newVal);
+      navBarService.reload();
+    }
+  });
+  $scope.$watch('maxResults', function(newVal){
+    if (newVal) {
+      navBarService.setSize(newVal);
+      navBarService.reload();
+    }
+  });
+  $scope.selectContinent = function(val) {
+    $scope.continentSelected = val;
+  }
 }]);
 app.controller('mainController', ['$scope','navBarService',
 function($scope, navBarService){
@@ -43,9 +64,14 @@ function($scope, navBarService){
 app.controller('resultsController', ['$scope','config','navBarService','countryInfoService',
 function($scope, config, navBarService, countryInfoService){
   navBarService.enableDisableDropDowns(false);
-  countryInfoService.getCountries('all').then(function(data) {//navBarService.getContinent(), navBarService.getSize(), navBarService.getMetric()
-    console.log(data);
+
+  navBarService.setCallback(function() {
+    countryInfoService.getCountries(navBarService.getContinent(), navBarService.getSize()).then(function(data) {
+      console.log(data);
+    });
   });
+  navBarService.reload();
+
 }]);
 app.service('countryInfoService', ['$q', '$http','config', function($q, $http,config){
   var data;
@@ -57,8 +83,8 @@ app.service('countryInfoService', ['$q', '$http','config', function($q, $http,co
   function getCountryInfo() {
     if (!data) {
       return $http.get(config.baseUrl + config.getCountryInfo).then(function(response){
-        data = response.data;
-        return response.data;
+        data = getCountriesMap(response.data.geonames);
+        return data;
       });
     }
     else {
@@ -67,20 +93,32 @@ app.service('countryInfoService', ['$q', '$http','config', function($q, $http,co
       return deferrer.promise;
     }
   }
+  //I just need those 4 objs
+  function getCountriesMap(data) {
+    return _.map(data, function(val){
+      return {
+        "areaInSqKm": val.areaInSqKm,
+        "countryName": val.countryName,
+        "continentName": val.continentName,
+        "population": val.population
+      }
+    });
+  }
   function getContinentsNames () {
     var deferrer = $q.defer();
     getCountryInfo().then(function(data){
-      deferrer.resolve(Object.keys(_.groupBy(data.geonames, function(val) {
+      deferrer.resolve(Object.keys(_.groupBy(data, function(val) {
         return val.continentName;
       })));
     });
     return deferrer.promise;
   }
 
-  function getCountries(continentName, metric, size) { 
+  function getCountries(continentName, size) { 
     var deferrer = $q.defer();
     getCountryInfo().then(function(data){
-      deferrer.resolve(getCountriesByContinent(data.geonames, continentName));
+      var countries = getCountriesByContinent(data, continentName);
+      deferrer.resolve(countries.slice(0,size));
     });
     return deferrer.promise;
   }
@@ -88,7 +126,7 @@ app.service('countryInfoService', ['$q', '$http','config', function($q, $http,co
   function getCountriesByContinent(data, continent) {
     if (continent == 'all') 
       return data;
-    _.filter(data, function(val) {
+    return _.filter(data, function(val) {
       if (val.continentName == continent)
         return true;
     });
@@ -98,10 +136,44 @@ app.service('countryInfoService', ['$q', '$http','config', function($q, $http,co
 }]);
 app.service('navBarService', ['config', function(config){
   var navBar = {
-    enableDisableDropDowns: enableDisableDropDowns
-  };
+    enableDisableDropDowns: enableDisableDropDowns,
+    getContinent: getContinent,
+    setContinent: setContinent,
+    getSize: getSize,
+    setSize: setSize,
+    getMetric: getMetric,
+    setMetric: setMetric,
+    reload: reload,
+    setCallback: setCallback
+  }, continent, size, metric, callback;
+
   function enableDisableDropDowns(disable) {
     angular.element('.dropdown-toggle').prop('disabled', disable);
+  }
+  function getContinent() {
+    return this.continent;
+  }
+  function setContinent(continent) {
+    this.continent = continent;
+  }
+  function getSize() {
+    return this.size;
+  }
+  function setSize(size) {
+    this.size = size;
+  }
+  function getMetric() {
+    return this.metric;
+  }
+  function setMetric(metric) {
+    this.metric = metric;
+  }
+  function setCallback(callback){
+    this.callback = callback;
+  }
+  function reload(){
+    if (this.callback)
+      this.callback();
   }
   return navBar;
 }]);

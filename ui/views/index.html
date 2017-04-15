@@ -22,7 +22,7 @@
             <ul class="dropdown-menu">
               <li><a ng-click="continentSelected = 'all'">All</a></li>
               <li ng-repeat="continent in continentsNames">
-              <a ng-click="continentSelected = continent">{{::continent}}</a>
+                <a ng-click="selectContinent(continent)">{{continent}}</a>
               </li>
             </ul>
           </li>
