@@ -8,14 +8,14 @@ app.directive('pieChart', function () {
     templateUrl: 'directives/pie-chart/template.html',
     link: function (scope, element, attrs) { 
       element[0].id = scope.$id+'-chart';
-      
       function renderChart() {
         Highcharts.chart(element[0].id, {
             chart: {
                 plotBackgroundColor: null,
                 plotBorderWidth: null,
                 plotShadow: false,
-                type: 'pie'
+                type: 'pie',
+                //width: angular.element
             },
             title: {
                 text: scope.data.title
@@ -43,8 +43,6 @@ app.directive('pieChart', function () {
             }]
         });
       }
-
-      //renderChart();
       scope.$watch(function(){
         return scope.data;
       }, function(newVal) {
