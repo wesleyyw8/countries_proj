@@ -43,11 +43,26 @@ app.service('countryInfoService', ['$q', '$http','config', function($q, $http,co
     var deferrer = $q.defer();
     getCountryInfo().then(function(data){
       var countries = getCountriesByContinent(data, continentName);
-      deferrer.resolve(countries.slice(0,size));
+      var others = calculateTotal(countries, size);
+      countries = countries.slice(0,size);
+      countries.push(others);
+      deferrer.resolve(countries);
     });
     return deferrer.promise;
   }
-
+  function calculateTotal(countries, size) {
+    var total = {
+      countryName: 'Other',
+      continentName: 'Other',
+      areaInSqKm: 0,
+      population: 0
+    }
+    angular.forEach(countries.slice(size), function(val){
+      total.areaInSqKm += parseInt(val.areaInSqKm);
+      total.population += parseInt(val.population);
+    })
+    return total;
+  }
   function getCountriesByContinent(data, continent) {
     if (continent == 'all') 
       return data;

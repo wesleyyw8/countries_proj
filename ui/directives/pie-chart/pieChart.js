@@ -18,7 +18,7 @@ app.directive('pieChart', function () {
                 type: 'pie'
             },
             title: {
-                text: ''
+                text: scope.data.title
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.y}</b>'
@@ -29,7 +29,7 @@ app.directive('pieChart', function () {
                     cursor: 'pointer',
                     dataLabels: {
                         enabled: true,
-                        format: '<b>{point.name}</b>: {point.y}',
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
                         style: {
                             color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
                         }
@@ -40,27 +40,11 @@ app.directive('pieChart', function () {
                 name: '',
                 colorByPoint: true,
                 data: scope.data.data
-                // data: [{
-                //     name: 'Microsoft Internet Explorer',
-                //     y: 56.33
-                // }, {
-                //     name: 'Firefox',
-                //     y: 10.38
-                // }, {
-                //     name: 'Safari',
-                //     y: 4.77
-                // }, {
-                //     name: 'Opera',
-                //     y: 0.91
-                // }, {
-                //     name: 'Proprietary or Undetectable',
-                //     y: 0.2
-                // }]
             }]
         });
       }
 
-      renderChart();
+      //renderChart();
       scope.$watch(function(){
         return scope.data;
       }, function(newVal) {
