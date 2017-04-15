@@ -6,6 +6,7 @@ function($scope, config, navBarService, countryInfoService){
     countryInfoService.getCountries(navBarService.getContinent(), navBarService.getSize()).then(function(data) {
       console.log(data);
       $scope.countries = data;
+      $scope.metric = navBarService.getMetric();
     });
   });
   navBarService.reload(); //loads for the first time.

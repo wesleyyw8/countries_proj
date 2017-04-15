@@ -4,16 +4,16 @@
       <tr>
         <th>continentName</th>
         <th>countryName</th>
-        <th>population</th>
-        <th>areaInSqKm</th>
+        <th ng-if="metric == 'population' || metric == 'all'">population</th>
+        <th ng-if="metric == 'areaInSqKm' || metric == 'all'">areaInSqKm</th>
       </tr>
     </thead>
     <tbody>
       <tr ng-repeat="item in data">
         <td>{{item.continentName}}</td>
         <td>{{item.countryName}}</td>
-        <td>{{item.population}}</td>
-        <td>{{item.areaInSqKm}}</td>
+        <td ng-if="metric == 'population' || metric == 'all'">{{item.population}}</td>
+        <td ng-if="metric == 'areaInSqKm' || metric == 'all'">{{item.areaInSqKm}}</td>
       </tr>
     </tbody>
   </table>
