@@ -28,7 +28,7 @@ app.service('countryInfoService', ['$q', '$http','config', function($q, $http,co
     return deferrer.promise;
   }
 
-  function getContnents () {
+  function getContinents() { 
     var deferrer = $q.defer();
     getCountryInfo().then(function(data){
       deferrer.resolve(_.groupBy(data.geonames, function(val) {
@@ -36,6 +36,9 @@ app.service('countryInfoService', ['$q', '$http','config', function($q, $http,co
       }));
     });
     return deferrer.promise;
+  }
+  getCountries(continentName, metric, maxResults) {
+
   }
 
   return service;
