@@ -3,7 +3,7 @@ app.service('countryInfoService', ['$q', '$http','config', function($q, $http,co
   var service = {
     getCountryInfo : getCountryInfo,
     getContinentsNames: getContinentsNames,
-    getContnents: getContnents
+    getCountries: getCountries
   }
   function getCountryInfo() {
     if (!data) {
@@ -28,21 +28,21 @@ app.service('countryInfoService', ['$q', '$http','config', function($q, $http,co
     return deferrer.promise;
   }
 
-  function getContinents() { 
+  function getCountries(continentName, metric, size) { 
     var deferrer = $q.defer();
     getCountryInfo().then(function(data){
-      deferrer.resolve(_.groupBy(data.geonames, function(val) {
-        return val.continentName;
-      }));
+      deferrer.resolve(getCountriesByContinent(data.geonames, continentName));
     });
     return deferrer.promise;
   }
-  getCountries(continentName, metric, maxResults) {
-    var deferrer = $q.defer();
-    getCountryInfo().then(function(data){
-      
+
+  function getCountriesByContinent(data, continent) {
+    if (continent == 'all') 
+      return data;
+    _.filter(data, function(val) {
+      if (val.continentName == continent)
+        return true;
     });
-    return deferrer.promise; 
   }
 
   return service;
